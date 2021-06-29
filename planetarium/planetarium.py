@@ -6,16 +6,20 @@ class Planetarium:
         pass
 
     def el (self):
+        tabId, setTabId = pa.us ('sm')
+
         return pa.el ('div', None,
-            pa.el (pm.TabContext, {'value': '0'},
+            pa.el (pm.TabContext, {'value': tabId},
                 pa.el (pm.AppBar, {'position': 'static'},
-                    pa.el (pm.TabList, {'value': '0'},
-                        pa.el (pm.Tab, {'value': '0', 'label': 'Tab 1'}),
-                        pa.el (pm.Tab, {'value': '1', 'label': 'Tab 2'})
+                    pa.el (pm.Tabs, {'value': tabId},
+                        pa.el (pm.Tab, {'value': 'sm', 'label': 'Sky Map', 'onClick': lambda: setTabId ('sm')}),
+                        pa.el (pm.Tab, {'value': 'ss', 'label': 'Solar System', 'onClick': lambda: setTabId ('ss')}),
+                        pa.el (pm.Tab, {'value': 'pv', 'label': 'Planet Visibility', 'onClick': lambda: setTabId ('pv')})
                     )
                 ),
-                pa.el (pm.TabPanel, {'value': '0'}, 'Item 1'),
-                pa.el (pm.TabPanel, {'value': '1'}, 'Item 2')
+                pa.el (pm.TabPanel, {'value': 'sm'}, 'The Sky Map'),
+                pa.el (pm.TabPanel, {'value': 'ss'}, 'The Solar System'),
+                pa.el (pm.TabPanel, {'value': 'pv'}, pa.el ('canvas'))
             )
         )
 
