@@ -1,0 +1,22 @@
+{
+  "name": "planetarium",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/lab": "*",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.9.4",
+    "parcel-plugin-transcrypt": "^1.0.20"
+  }
+}

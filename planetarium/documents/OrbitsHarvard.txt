@@ -1,0 +1,66 @@
+Explanation Of Orbital Elements
+The quantities given in orbital elements published in the IAU Circulars, Minor Planet Circulars and Minor Planet Electronic Circulars have the following meanings (for a detailed explanation of the physical meaning of these quantities, and on any relationships between different quantities, you are referred to standard textbooks on celestial mechanics): 
+Epoch 
+The epoch of osculation of the orbital elements. 
+
+M 
+Mean anomaly at the epoch. 
+
+n 
+Mean daily motion (in degrees/day). 
+
+
+===
+
+Orbital Elements
+The following orbital elements are taken from MPC 65054: 
+C/2007 N3 (Lulin)
+Epoch 2009 Jan. 9.0 TT = JDT 2454840.5
+T 2009 Jan. 10.6400 TT                                  MPC
+q   1.212267             (2000.0)            P               Q
+z  +0.000012       Peri.  136.8660      -0.9292047      -0.3694195
+ +/-0.000001       Node   338.5392      -0.3463210      +0.8606090
+e   0.999986       Incl.  178.3736      -0.1289977      +0.3505443
+From 1707 observations 2007 July 11-2009 Feb. 5, mean residual 0".5.
+
+Explanation Of Orbital Elements
+The quantities given in orbital elements published in the IAU Circulars, Minor Planet Circulars and Minor Planet Electronic Circulars have the following meanings (for a detailed explanation of the physical meaning of these quantities, and on any relationships between different quantities, you are referred to standard textbooks on celestial mechanics): 
+
+a 
+Semimajor axis (in AU). 
+
+z 
+Reciprocal semimajor axis (in 1/AU). 
+
+q 
+Perihelion distance (in AU). 
+
+e 
+Orbital eccentricity. 
+
+P 
+Orbital period (in years). 
+
+Peri. 
+The J2000.0 argument of perihelion (in degrees). 
+
+Node 
+The J2000.0 longitude of the ascending node (in degrees). 
+
+Incl. 
+The J2000.0 inclination (in degrees). 
+
+P and Q vectors 
+The vectors P and Q are an alternate form of representing the angular elements Peri., Node and Incl. For an explanation of how to convert between the two sets of quantities you are referred to standard celestial mechanics textbooks. 
+
+U 
+Uncertainty parameter. 
+Not all of these quantities will be given with every orbit, but enough information will always be given to describe an orbit completely. 
+The following two quantities are not orbital elements but are generally given with them. 
+
+H 
+Absolute visual magnitude. A table converting H to a diameter is available. 
+
+G 
+Slope parameter. For an explanation of the H,G magnitude system refer to Application of Photometric Models to Asteroids, Bowell et al., in Asteroids II, 524-556 (published by the University of Arizona Press, ISBN 0-8165-1123-3) and the references therein.
+
