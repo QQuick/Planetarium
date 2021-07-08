@@ -9,6 +9,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "browserslist": [
+    "since 2017-06"
+  ],
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/lab": "*",

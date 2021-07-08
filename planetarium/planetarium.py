@@ -3,6 +3,8 @@ import math as mt
 import pyact as pa
 import pymui as pm
 
+import telescope as ts
+
 def tabEl (self, index):
     return pa.el (pm.Tab, {'value': str (index), 'label': 'test'})
 
@@ -38,7 +40,7 @@ class BasePage:
         return pa.el (pm.Tab, {'value': str (self.index), 'label': self.title, 'onClick': lambda: self.planetarium.setPageIndex (self.index)})
 
     def contentEl (self):
-        return pa.el (pm.TabPanel, {'value': str (self.index), 'style': {'boxSizing': 'border-box', 'margin': 0, 'padding-top': 30, 'backgroundColor': 'gray', 'width': '100%', 'width': '100%'}},
+        return pa.el (pm.TabPanel, {'value': str (self.index), 'style': {'boxSizing': 'border-box', 'margin': 0, 'paddingTop': 30, 'backgroundColor': 'gray', 'width': '100%', 'width': '100%'}},
             pa.el (pm.Grid, {'container': True, 'style': {'margin': 0, 'padding': 0}},
                 pa.el (pm.Box, {'style': {'width': '20%', 'margin': 0, 'padding': 0}},
                     self.title

@@ -1,62 +1,52 @@
+# General utilities, possibly used in many places
+
 import datetime as dt
 import math as mt
+
 import numscrypt as ns
 
-'''General utilities, possibly used in many places
-'''
+# Universal synonyms for package-specific datatypes
+typesGen = {'coordinate': 'float32', 'colorComponent': 'float32', 'index': 'uint32'}
+typesNs = {'float32': ns.float32, 'int32': ns.int32}
 
-'''Datatypes
-Universal synonyms for package-specific datatypes
-'''
-typesGen = {'coordinate': 'float32', 'colorComponent': 'float32', 'index': 'uint16'}
-typesNp = {'float32': numpy.float32, 'uint16': numpy.uint16}
-typesGl = {'float32': gl.GL_FLOAT, 'uint16': gl.GL_UNSIGNED_SHORT}
-
+# Return numscrypt column vector from entries
 def colVec (*entries):
-    '''Return numscrypt column vector from entries
-    '''
     return ns.array (entries) .reshape (len (entries), 1)
 
+# Get radians from degrees
 def radFromDeg (degrees):
-    '''Get radians from degrees
-    '''
     return (degrees / 180) * mt.pi
 
+# Get degrees from radians
 def degFromRad (rad):
-    '''Get degrees from radians
-    '''
     return (rad / mt.pi) * 180
 
 obliquity = radFromDeg (23.43928)
-_sinObliq = mt.sin (obliquity)
-_cosObliq = mt.cos (obliquity)
-def equatFromEclipt (xyz):
-    ''' Get equatorial coords from ecliptic coords
-    '''
-    return (
-        xyz [0],
-        cosObliq * xyz [1] - sinObliq * xyz [2],
-        sinObliq * xyz [1] + cosObliq * xyz [2]
+sinObliq = mt.sin (obliquity)
+cosObliq = mt.cos (obliquity)
+
+# Get equatorial coords from ecliptic coords
+def equatFromEclipt (x, y, z):
+    result = (
+        x,
+        cosObliq * y - sinObliq * z,
+        sinObliq * y + cosObliq * z
     )
-    
-def raDecFromXyz (xyz):
-    '''Get right ascension and declination from x y z coords
-    '''
-    
+    return result
+ 
+# Get right ascension and declination from x y z coords
+def raDecFromXyz (x, y, z):
     return (
-        ((12/mt.pi) * mt.atan2 (xyz [1], xyz [0]) + 24) % 24,
-        (180/mt.pi) * mt.atan (xyz [2] / mt.sqrt (xyz [0] * xyz [0] + xyz [1] * xyz [1]))
+        ((12/mt.pi) * mt.atan2 (y, x) + 24) % 24,
+        (180/mt.pi) * mt.atan (z / mt.sqrt (x * x + y * y))
     )
 
+# Convert <hours>.<minutes> to <hours>.<decimal fraction>
 def decimalHours (hoursMinutes):
-    '''Convert <hours>.<minutes> to <hours>.<decimal fraction>
-    '''
+    return mt.floor (hoursMinutes) + (100 / 60) * (hoursMinutes - mt.floor (hoursMinutes))
 
-    return mt.floor (hoursMinutes) + (100 / 60) * (hoursMinutes - mt.floor (hoursMinutes)
-    
+# Get julian day number from date and time, https://www.youtube.com/watch?v=_x1ga4dAzDo
 def julianDayNr (dateTime):
-    '''Get julian day number from date and time
-    '''
 
     a = (14 - dateTime.month) / 12
     y = dateTime.year + 4800 - a
