@@ -77,5 +77,4 @@ def getRotZYXMat (angleVec):
 
 def getProjection (bodyVec, imageDist):
     scale = imageDist / bodyVec [2]
-    # !!! return bodyVec [:2] / scale if scale <= 1 else None
-    return ns.array ((scale * bodyVec [0], scale * bodyVec [1])) if scale < 1 else None
+    return (scale * bodyVec [0], scale * bodyVec [1]) if scale < 1 else None
