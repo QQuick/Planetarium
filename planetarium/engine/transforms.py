@@ -33,42 +33,42 @@ def getRotZMat (angle):
         [0, 0, 1]
     ], dtype = ut.typesNs [ut.typesGen ['coordinate']])
 
-def getRotXYZMat (angleVec):    # Z rotation first
+def getRotXyzMat (angleVec):    # Z rotation first
     return (
         getRotXMat (angleVec [2]) *
         getRotYMat (angleVec [1]) *
         getRotZMat (angleVec [0])
     )
 
-def getRotXZYMat (angleVec):
+def getRotXzyMat (angleVec):
     return (
         getRotXMat (angleVec [2]) *
         getRotZMat (angleVec [1]) *
         getRotYMat (angleVec [0])
     )
 
-def getRotYXZMat (angleVec):
+def getRotYxzMat (angleVec):
     return (
         getRotYMat (angleVec [2]) *
         getRotXMat (angleVec [1]) *
         getRotZMat (angleVec [0])
     )
 
-def getRotYZXMat (angleVec):
+def getRotYzxMat (angleVec):
     return (
         getRotYMat (angleVec [2]) *
         getRotZMat (angleVec [1]) *
         getRotXMat (angleVec [0])
     )
 
-def getRotZXYMat (angleVec):
+def getRotZxyMat (angleVec):
     return (
         getRotZMat (angleVec [2]) *
         getRotXMat (angleVec [1]) *
         getRotYMat (angleVec [0])
     )
 
-def getRotZYXMat (angleVec):
+def getRotZyxMat (angleVec):
     return (
         getRotZMat (angleVec [2]) *
         getRotYMat (angleVec [1]) *

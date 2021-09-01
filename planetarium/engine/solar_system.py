@@ -4,8 +4,12 @@
 import datetime as dt
 import math as mt
 
+import numscrypt as ns
+
 import utils as ut
 import transforms as tr
+
+__pragma__ ('opov')
 
 class Planet:
     def __init__ (self, solarSystem, name, basicOrbitElements, extraOrbitElements, period, radius, color):
@@ -25,7 +29,14 @@ class Planet:
 
     def setEarthViewPosition (self):
         relEquatPosition = tr.getRelPosition (self.equatPosition, self.solarSystem.earth.equatPosition)
-        self.earthViewPosition = tr.getProjection (relEquatPosition, self.solarSystem.getViewDistance ())
+
+        rotatedPosition = (
+            self.solarSystem.rotZyxMat
+            @
+            ns.array ([relEquatPosition], dtype = ut.typesNs [ut.typesGen ['coordinate']]) .transpose ()
+        ) .transpose () .tolist ()[0]
+
+        self.earthViewPosition = tr.getProjection (rotatedPosition, self.solarSystem.getViewDistance ())
 
     def setFarViewOrbit (self):
         relEquatPosition = tr.getRelPosition (self.equatPosition, (30, 30, 10))
@@ -159,7 +170,8 @@ class SolarSystem:
         for planet in self.planets:
             planet.setEquatOrbit ()
 
-    def setEarthViewPositions (self):
+    def setEarthViewPositions (self, angleVec):
+        self.rotZyxMat = tr.getRotZyxMat (angleVec)
         for planetIndex, planet in enumerate (self.planets):
             planet.setEarthViewPosition ()
 

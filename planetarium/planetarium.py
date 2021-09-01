@@ -1,4 +1,4 @@
-# 7
+# 69
 
 import math as mt
 
@@ -8,16 +8,16 @@ import pymui as pm
 import solar_system as ss
 
 twoPi = 2 * mt.pi
+controlWidth = '90%'
+controlHeight = '100'
 
 def tabEl (self, index):
-    return pa.el (pm.Tab, {'value': str (index), 'label': 'test'})
+    return pm.Tab ({'value': str (index), 'label': 'test'}) .el ()
 
 class Planetarium:
     def __init__ (self):
         self.solarSystem = ss.SolarSystem (lambda: (2020, 12, 21, 0, 0, 0), lambda: 40)
         self.solarSystem.setEquatPositions ()
-        self.solarSystem.setEarthViewPositions ()
-        self.solarSystem.printPositions ()
 
         self.Pages = (SkyMapPage, SolarSystemPage, PlanetVisibilityPage)
         self.pages = [Page (self, pageIndex) for pageIndex, Page in enumerate (self.Pages)]     # All pages created in advance, since they're permanently on their tabs
@@ -26,14 +26,21 @@ class Planetarium:
     def el (self):
         self.pageIndex, self.setPageIndex = pa.useState (0)
 
-        return pa.el (pm.TabContext, {'value': str (self.pageIndex)},
-            pa.el (pm.AppBar, {'position': 'static', 'style': {'background': '#333333'}},
-                pa.el (pm.Tabs, {'value': str (self.pageIndex)},
+        self.xAngle, self.setXAngle = pa.useState (0)
+        self.yAngle, self.setYAngle = pa.useState (0)
+        self.zAngle, self.setZAngle = pa.useState (0)
+
+        self.solarSystem.setEarthViewPositions ((self.xAngle, self.yAngle, self.zAngle))
+        # self.solarSystem.printPositions ()
+
+        return pm.TabContext ({'value': str (self.pageIndex)},
+            pm.AppBar ({'position': 'static', 'style': {'background': '#333333'}},
+                pm.Tabs ({'value': str (self.pageIndex)},
                     *(page.tabEl () for page in self.pages)
-                )
-            ),
+                ) .el ()
+            ) .el (),
             *(page.contentEl () for page in self.pages)
-        )
+        ) .el ()
 
 class Page:
     def __init__ (self, planetarium, index):
@@ -44,15 +51,15 @@ class Page:
 
     def tabEl (self):
         pa.useEffect (self.draw)
-        return pa.el (pm.Tab, {'value': str (self.index), 'label': self.title, 'onClick': lambda: self.planetarium.setPageIndex (self.index)})
+        return pm.Tab ({'value': str (self.index), 'label': self.title, 'onClick': lambda: self.planetarium.setPageIndex (self.index)}) .el ()
 
     def contentEl (self):
-        return pa.el (pm.TabPanel, {'value': str (self.index), 'style': {'boxSizing': 'border-box', 'margin': 0, 'paddingTop': 30, 'backgroundColor': 'gray', 'width': '100%', 'width': '100%'}},
-            pa.el (pm.Grid, {'container': True, 'style': {'margin': 0, 'padding': 0}},
+        return pm.TabPanel ({'value': str (self.index), 'style': {'boxSizing': 'border-box', 'margin': 0, 'paddingTop': 30, 'backgroundColor': 'gray', 'width': '100%'}},
+            pm.Grid ({'container': True, 'style': {'margin': 0, 'padding': 0}},
                 self.controlPane.el (),
                 self.viewPane.el ()
-            )
-        )
+            ) .el ()
+        ) .el ()
 
     def draw (self):
         if self.planetarium.pageIndex == self.index:
@@ -79,15 +86,15 @@ class Pane:
 class ControlPane (Pane):
     def __init__ (self, page):
         self.page = page
-        self.controlGroups = [TitleControlGroup (self), TimeControlGroup (self)]
+        self.controlGroups = [TimeControlGroup (self)]
         self.appendControlGroups ()
 
     def el (self):
-        return pa.el (pm.Box, {'style': {'width': '20%', 'margin': 0, 'padding': 0}},
-            pa.el (pm.Grid, {'container': True, 'direction': 'column', 'style': {'margin': 0, 'padding': 0}},
+        return pm.Box ({'style': {'width': '20%', 'margin': 0, 'padding': 0}},
+            pm.Grid ({'container': True, 'direction': 'column', 'style': {'margin': 0, 'padding': 0}},
                 *[controlGroup.el () for controlGroup in self.controlGroups]
-            )
-        )
+            ) .el ()
+        ) .el ()
 
 class SkyMapControlPane (ControlPane):
     def appendControlGroups (self):
@@ -109,7 +116,7 @@ class ViewPane (Pane):
         self.canvasRef = pa.createRef ()
 
     def el (self):
-        return pa.el ('canvas', {'ref': self.canvasRef, 'style': {'backgroundColor': 'black', 'width': self.width + 150, 'height': self.height + 150}})
+        return pm.Canvas ({'ref': self.canvasRef, 'style': {'backgroundColor': 'black', 'width': self.width + 150, 'height': self.height + 150}}) .el ()
 
     def draw (self):
         self.canvas = self.canvasRef.current
@@ -135,30 +142,36 @@ class ViewPane (Pane):
 class ControlGroup:
     def __init__ (self, controlPane):
         self.controlPane = controlPane
-        self.setContent ()
+        self.setControls ()
 
     def el (self):
-        return pa.el (pm.Box, {'style': {'margin': 0, 'padding': 0}},
-            self.content
-    )
-class TitleControlGroup (ControlGroup):
-    def setContent (self):
-        self.content = self.controlPane.page.title
+        return pm.Box ({'style': {'margin': 0, 'padding': 0}},
+            pm.Grid ({'container': True, 'direction': 'column', 'style': {'margin': 0, 'padding': 0}},
+                *[control.el () for control in self.controls]
+            ) .el ()
+        ) .el ()
 
 class TimeControlGroup (ControlGroup):
-    def setContent (self):
-        self.content = 'timeControlGroup'
+    def setControls (self):
+        self.controls = [
+            pm.TextField ({'type': 'date', 'style': {'width': controlWidth}}),
+            pm.TextField ({'type': 'time', 'style': {'width': controlWidth}})
+        ]
 
 class SkyMapControlGroup (ControlGroup):
-    def setContent (self):
-        self.content = 'skyMapControlGroup'
+    def setControls (self):
+        self.controls = [
+            pm.Slider ({'onChange': lambda event, value: self.controlPane.page.planetarium.setXAngle (value * twoPi / 100), 'style': {'width': controlWidth}}),
+            pm.Slider ({'onChange': lambda event, value: self.controlPane.page.planetarium.setYAngle (value * twoPi / 100), 'style': {'width': controlWidth}}),
+            pm.Slider ({'onChange': lambda event, value: self.controlPane.page.planetarium.setZAngle (value * twoPi / 100), 'style': {'width': controlWidth}})
+        ]
 
 class SolarSystemControlGroup (ControlGroup):
-    def setContent (self):
-        self.content = 'solarSystemControlGroup'
+    def setControls (self):
+        self.controls = [pm.String ('solarSystemControlGroup')]
 
 class PlanetVisibilityControlGroup (ControlGroup):
-    def setContent (self):
-        self.content = 'planetVisibilityControlGroup'
+    def setControls (self):
+        self.controls = [pm.String ('planetVisibilityControlGroup')]
 
 planetarium = Planetarium ()
