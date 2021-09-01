@@ -1,0 +1,3 @@
+Components have to be:
+- Self contained
+- Configurable

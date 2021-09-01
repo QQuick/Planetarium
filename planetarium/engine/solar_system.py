@@ -20,14 +20,16 @@ class Planet:
     def setEquatPosition (self):
         self.equatPosition = self.computeEquatOrbit (1)[0]
 
-    def setViewPosition (self):
-        self.viewPosition = tr.getProjection (self.equatPosition, self.solarSystem.getViewDistance ())
-
     def setEquatOrbit (self):
         self.equatOrbit = self.computeEquatOrbit (180)
 
-    def setViewOrbit (self):
-        self.viewOrbit = [tr.getProjection (equatPosition, self.solarSystem.getViewDistance) for equatPosition in self.equatOrbit]
+    def setEarthViewPosition (self):
+        relEquatPosition = tr.getRelPosition (self.equatPosition, self.solarSystem.earth.equatPosition)
+        self.earthViewPosition = tr.getProjection (relEquatPosition, self.solarSystem.getViewDistance ())
+
+    def setFarViewOrbit (self):
+        relEquatPosition = tr.getRelPosition (self.equatPosition, (30, 30, 10))
+        self.farViewOrbit = [tr.getProjection (relEquatPosition, self.solarSystem.getViewDistance) for equatPosition in self.equatOrbit]
 
     def computeEquatOrbit (self, orbitSteps):
         a_0 = self.basicOrbitElements [0][0]
@@ -147,22 +149,24 @@ class SolarSystem:
             )
         )]
 
+        self.earth = self.planets [2]
+
     def setEquatPositions (self):
         for planet in self.planets:
             planet.setEquatPosition ()
-
-    def setViewPositions (self):
-        for planet in self.planets:
-            planet.setViewPosition ()
 
     def setEquatOrbits (self):
         for planet in self.planets:
             planet.setEquatOrbit ()
 
-    def setViewOrbits (self):
+    def setEarthViewPositions (self):
+        for planetIndex, planet in enumerate (self.planets):
+            planet.setEarthViewPosition ()
+
+    def setFarViewOrbits (self):
         for planet in self.planets:
-            planet.setViewOrbit ()
+            planet.setFarViewOrbit ()
 
     def printPositions (self):
         for planet in self.planets:
-            print (planet.name, planet.equatPosition, planet.viewPosition)
+            print (planet.name, planet.equatPosition, planet.earthViewPosition)
