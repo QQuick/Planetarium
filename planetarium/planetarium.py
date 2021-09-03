@@ -1,4 +1,4 @@
-# 69
+# 78
 
 import math as mt
 
@@ -26,9 +26,12 @@ class Planetarium:
     def el (self):
         self.pageIndex, self.setPageIndex = pa.useState (0)
 
-        self.xAngle, self.setXAngle = pa.useState (0)
-        self.yAngle, self.setYAngle = pa.useState (0)
-        self.zAngle, self.setZAngle = pa.useState (0)
+        try:
+            self.xAngle, self.setXAngle = pa.useState (0)
+            self.yAngle, self.setYAngle = pa.useState (0)
+            self.zAngle, self.setZAngle = pa.useState (0)
+        except:
+            pass
 
         self.solarSystem.setEarthViewPositions ((self.xAngle, self.yAngle, self.zAngle))
         # self.solarSystem.printPositions ()

@@ -172,7 +172,8 @@ class SolarSystem:
 
     def setEarthViewPositions (self, angleVec):
         self.rotZyxMat = tr.getRotZyxMat (angleVec)
-        for planetIndex, planet in enumerate (self.planets):
+        
+        for planet in self.planets:
             planet.setEarthViewPosition ()
 
     def setFarViewOrbits (self):

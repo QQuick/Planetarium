@@ -35,43 +35,43 @@ def getRotZMat (angle):
 
 def getRotXyzMat (angleVec):    # Z rotation first
     return (
-        getRotXMat (angleVec [2]) *
-        getRotYMat (angleVec [1]) *
+        getRotXMat (angleVec [2]) @
+        getRotYMat (angleVec [1]) @
         getRotZMat (angleVec [0])
     )
 
 def getRotXzyMat (angleVec):
     return (
-        getRotXMat (angleVec [2]) *
-        getRotZMat (angleVec [1]) *
+        getRotXMat (angleVec [2]) @
+        getRotZMat (angleVec [1]) @
         getRotYMat (angleVec [0])
     )
 
 def getRotYxzMat (angleVec):
     return (
-        getRotYMat (angleVec [2]) *
-        getRotXMat (angleVec [1]) *
+        getRotYMat (angleVec [2]) @
+        getRotXMat (angleVec [1]) @
         getRotZMat (angleVec [0])
     )
 
 def getRotYzxMat (angleVec):
     return (
-        getRotYMat (angleVec [2]) *
-        getRotZMat (angleVec [1]) *
+        getRotYMat (angleVec [2]) @
+        getRotZMat (angleVec [1]) @
         getRotXMat (angleVec [0])
     )
 
 def getRotZxyMat (angleVec):
     return (
-        getRotZMat (angleVec [2]) *
-        getRotXMat (angleVec [1]) *
+        getRotZMat (angleVec [2]) @
+        getRotXMat (angleVec [1]) @
         getRotYMat (angleVec [0])
     )
 
 def getRotZyxMat (angleVec):
     return (
-        getRotZMat (angleVec [2]) *
-        getRotYMat (angleVec [1]) *
+        getRotZMat (angleVec [2]) @
+        getRotYMat (angleVec [1]) @
         getRotXMat (angleVec [0])
     )
 
