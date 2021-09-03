@@ -79,5 +79,5 @@ def getRelPosition (subjectVec, observerVec):
     return subjectVec [0] - observerVec [0], subjectVec [1] - observerVec [1], subjectVec [2] - observerVec [2]
 
 def getProjection (bodyVec, imageDist):
-    scale = imageDist / bodyVec [2]
-    return (scale * bodyVec [0], scale * bodyVec [1]) if scale < 1 else None
+    scale = 400 * imageDist / (imageDist + bodyVec [2])
+    return (scale * bodyVec [0], scale * bodyVec [1]) if bodyVec [2] < 0 else None

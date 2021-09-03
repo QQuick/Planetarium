@@ -1,4 +1,4 @@
-# 78
+# 94
 
 import math as mt
 
@@ -16,8 +16,9 @@ def tabEl (self, index):
 
 class Planetarium:
     def __init__ (self):
-        self.solarSystem = ss.SolarSystem (lambda: (2020, 12, 21, 0, 0, 0), lambda: 40)
+        self.solarSystem = ss.SolarSystem (lambda: (2020, 12, 21, 0, 0, 0), lambda: 0.6)
         self.solarSystem.setEquatPositions ()
+        self.solarSystem.printPositions ()
 
         self.Pages = (SkyMapPage, SolarSystemPage, PlanetVisibilityPage)
         self.pages = [Page (self, pageIndex) for pageIndex, Page in enumerate (self.Pages)]     # All pages created in advance, since they're permanently on their tabs

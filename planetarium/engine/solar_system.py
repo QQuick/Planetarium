@@ -11,6 +11,8 @@ import transforms as tr
 
 __pragma__ ('opov')
 
+mPerAu = 149597871e14
+
 class Planet:
     def __init__ (self, solarSystem, name, basicOrbitElements, extraOrbitElements, period, radius, color):
         self.name = name
