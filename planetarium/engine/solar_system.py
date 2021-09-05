@@ -30,19 +30,12 @@ class Planet:
         self.equatOrbit = self.computeEquatOrbit (180)
 
     def setEarthViewPosition (self):
-        relEquatPosition = tr.getRelPosition (self.equatPosition, self.solarSystem.earth.equatPosition)
-
-        rotatedPosition = (
-            self.solarSystem.rotZyxMat
-            @
-            ns.array ([relEquatPosition], dtype = ut.typesNs [ut.typesGen ['coordinate']]) .transpose ()
-        ) .transpose () .tolist ()[0]
-
+        rotatedPosition = self.solarSystem.rotZyxMat @ (self.equatPosition - self.solarSystem.earth.equatPosition)
         self.earthViewPosition = tr.getProjection (rotatedPosition, self.solarSystem.getViewDistance ())
 
     def setFarViewOrbit (self):
-        relEquatPosition = tr.getRelPosition (self.equatPosition, (30, 30, 10))
-        self.farViewOrbit = [tr.getProjection (relEquatPosition, self.solarSystem.getViewDistance) for equatPosition in self.equatOrbit]
+
+        self.farViewOrbit = [tr.getProjection (self.equatPostion - ns.array ((30, 30, 10)), self.solarSystem.getViewDistance) for equatPosition in self.equatOrbit]
 
     def computeEquatOrbit (self, orbitSteps):
         a_0 = self.basicOrbitElements [0][0]
@@ -108,7 +101,7 @@ class Planet:
 
             equatOrbit = []
             
-            equatOrbit.append  (ut.equatFromEclipt (
+            equatOrbit.append (ns.array (ut.equatFromEclipt (
                 (mt.cos (ut.radFromDeg (om)) * mt.cos (ut.radFromDeg (Om)) - mt.sin (ut.radFromDeg (om)) * mt.sin (ut.radFromDeg (Om)) * mt.cos (ut.radFromDeg (I))) * xAccent +
                 (-mt.sin (ut.radFromDeg (om)) * mt.cos (ut.radFromDeg (Om)) - mt.cos (ut.radFromDeg (om)) * mt.sin (ut.radFromDeg (Om)) * mt.cos (ut.radFromDeg (I))) * yAccent,
  
@@ -117,7 +110,7 @@ class Planet:
                 
                 mt.sin (ut.radFromDeg (om)) * mt.sin (ut.radFromDeg (I)) * xAccent +
                 mt.cos (ut.radFromDeg (om)) * mt.sin (ut.radFromDeg (I)) * yAccent
-            ))
+            )))
 
         return equatOrbit
 
