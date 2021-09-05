@@ -1,12 +1,13 @@
-# 90
+# 126
 
 import math as mt
 
 import pyact as pa
 import pymui as pm
 
-import transforms as tr
+import transforms as tf
 import solar_system as ss
+import  milkyway as mw
 
 twoPi = 2 * mt.pi
 controlWidth = '90%'
@@ -18,6 +19,7 @@ def tabEl (self, index):
 class Planetarium:
     def __init__ (self):
         self.solarSystem = ss.SolarSystem (self, lambda: (2020, 12, 21, 0, 0, 0), lambda: 0.6)
+        self.milkyway = mw.Milkyway (self)
         self.solarSystem.setEquatPositions ()
         self.solarSystem.printPositions ()
 
@@ -32,8 +34,9 @@ class Planetarium:
         self.yAngle, self.setYAngle = pa.useState (0)
         self.zAngle, self.setZAngle = pa.useState (0)
 
-        self.rotZyxMat = tr.getRotZyxMat ((self.xAngle, self.yAngle, self.zAngle))
+        self.rotZyxMat = tf.getRotZyxMat ((self.xAngle, self.yAngle, self.zAngle))
         self.solarSystem.setEarthViewPositions ()
+        self.milkyway.setEarthViewPositions ()
 
         return pm.TabContext ({'value': str (self.pageIndex)},
             pm.AppBar ({'position': 'static', 'style': {'background': '#333333'}},
@@ -130,6 +133,10 @@ class ViewPane (Pane):
         for planet in reversed (self.page.planetarium.solarSystem.planets):
             if planet.earthViewPosition != None:
                 self.drawSphere (planet.earthViewPosition, mt.sqrt (planet.radius) / 40, planet.color)
+
+        for star in self.page.planetarium.milkyway.stars:
+            if star.earthViewPosition != None:
+                self.drawSphere (star.earthViewPosition, -star.magnitude + 3.5, 'white')
 
     def getCanvasCoords (self, viewCoords):
         result = self.width / 2 + viewCoords [0], self.height / 2 - viewCoords [1]

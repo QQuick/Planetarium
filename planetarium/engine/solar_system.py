@@ -7,7 +7,7 @@ import math as mt
 import numscrypt as ns
 
 import utils as ut
-import transforms as tr
+import transforms as tf
 
 __pragma__ ('opov')
 
@@ -31,11 +31,11 @@ class Planet:
 
     def setEarthViewPosition (self):
         rotatedPosition = self.solarSystem.planetarium.rotZyxMat @ (self.equatPosition - self.solarSystem.earth.equatPosition)
-        self.earthViewPosition = tr.getProjection (rotatedPosition, self.solarSystem.getViewDistance ())
+        self.earthViewPosition = tf.getProjection (rotatedPosition, self.solarSystem.getViewDistance ())
 
     def setFarViewOrbit (self):
 
-        self.farViewOrbit = [tr.getProjection (self.equatPostion - ns.array ((30, 30, 10)), self.solarSystem.getViewDistance) for equatPosition in self.equatOrbit]
+        self.farViewOrbit = [tf.getProjection (self.equatPostion - ns.array ((30, 30, 10)), self.solarSystem.getViewDistance) for equatPosition in self.equatOrbit]
 
     def computeEquatOrbit (self, orbitSteps):
         a_0 = self.basicOrbitElements [0][0]
