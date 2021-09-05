@@ -30,7 +30,7 @@ class Planet:
         self.equatOrbit = self.computeEquatOrbit (180)
 
     def setEarthViewPosition (self):
-        rotatedPosition = self.solarSystem.rotZyxMat @ (self.equatPosition - self.solarSystem.earth.equatPosition)
+        rotatedPosition = self.solarSystem.planetarium.rotZyxMat @ (self.equatPosition - self.solarSystem.earth.equatPosition)
         self.earthViewPosition = tr.getProjection (rotatedPosition, self.solarSystem.getViewDistance ())
 
     def setFarViewOrbit (self):
@@ -115,7 +115,8 @@ class Planet:
         return equatOrbit
 
 class SolarSystem:
-    def __init__ (self, getYmdHms, getViewDistance):
+    def __init__ (self, planetarium, getYmdHms, getViewDistance):
+        self.planetarium = planetarium
         self.getYmdHms = getYmdHms
         self.getViewDistance = getViewDistance
 
@@ -165,9 +166,7 @@ class SolarSystem:
         for planet in self.planets:
             planet.setEquatOrbit ()
 
-    def setEarthViewPositions (self, angleVec):
-        self.rotZyxMat = tr.getRotZyxMat (angleVec)
-        
+    def setEarthViewPositions (self):
         for planet in self.planets:
             planet.setEarthViewPosition ()
 

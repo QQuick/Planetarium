@@ -1,10 +1,11 @@
-# 94
+# 90
 
 import math as mt
 
 import pyact as pa
 import pymui as pm
 
+import transforms as tr
 import solar_system as ss
 
 twoPi = 2 * mt.pi
@@ -16,7 +17,7 @@ def tabEl (self, index):
 
 class Planetarium:
     def __init__ (self):
-        self.solarSystem = ss.SolarSystem (lambda: (2020, 12, 21, 0, 0, 0), lambda: 0.6)
+        self.solarSystem = ss.SolarSystem (self, lambda: (2020, 12, 21, 0, 0, 0), lambda: 0.6)
         self.solarSystem.setEquatPositions ()
         self.solarSystem.printPositions ()
 
@@ -27,15 +28,12 @@ class Planetarium:
     def el (self):
         self.pageIndex, self.setPageIndex = pa.useState (0)
 
-        try:
-            self.xAngle, self.setXAngle = pa.useState (0)
-            self.yAngle, self.setYAngle = pa.useState (0)
-            self.zAngle, self.setZAngle = pa.useState (0)
-        except:
-            pass
+        self.xAngle, self.setXAngle = pa.useState (0)
+        self.yAngle, self.setYAngle = pa.useState (0)
+        self.zAngle, self.setZAngle = pa.useState (0)
 
-        self.solarSystem.setEarthViewPositions ((self.xAngle, self.yAngle, self.zAngle))
-        # self.solarSystem.printPositions ()
+        self.rotZyxMat = tr.getRotZyxMat ((self.xAngle, self.yAngle, self.zAngle))
+        self.solarSystem.setEarthViewPositions ()
 
         return pm.TabContext ({'value': str (self.pageIndex)},
             pm.AppBar ({'position': 'static', 'style': {'background': '#333333'}},
