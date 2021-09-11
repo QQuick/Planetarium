@@ -32,7 +32,7 @@ class Star:
         
     def setEarthViewPosition (self):
         rotatedPosition = self.exoSystem.planetarium.rotZyxMat @ self.equatPosition   # Neglect distance from earth to sun
-        self.earthViewPosition = tf.getProjection (rotatedPosition, self.exoSystem.planetarium.solarSystem.getViewDistance ())
+        self.earthViewPosition = tf.getStereographicProjection (rotatedPosition, self.exoSystem.planetarium.solarSystem.getViewDistance ())
 
     def __repr__ (self):
         return f'{self.name}_{self.kind}_{self.rightAscension}_{self.declination}_{self.equatPosition}_{self.magnitude}'

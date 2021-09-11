@@ -32,7 +32,7 @@ class Planet:
 
     def setEarthViewPosition (self):
         rotatedPosition = self.solarSystem.planetarium.rotZyxMat @ (self.equatPosition - self.solarSystem.earth.equatPosition)
-        self.earthViewPosition = tf.getProjection (rotatedPosition, self.solarSystem.getViewDistance ())
+        self.earthViewPosition = tf.getStereographicProjection (rotatedPosition, self.solarSystem.getViewDistance ())
 
     def setFarViewOrbit (self):
 

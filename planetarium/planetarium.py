@@ -139,11 +139,13 @@ class ViewPane (Pane):
         result = self.width / 2 + viewCoords [0], self.height / 2 - viewCoords [1]
         return result
 
-    def drawSphere (self, viewCoords, radius, color):
+    def drawSphere (self, viewCoords, radius, color, fill = True):
         self.context.beginPath ()
         self.context.arc (*self.getCanvasCoords (viewCoords), radius, 0, twoPi)
-        self.context.fillStyle = color
-        self.context.fill ()
+        
+        if fill:
+            self.context.fillStyle = color
+            self.context.fill ()
 
 class ControlGroup:
     def __init__ (self, controlPane):
