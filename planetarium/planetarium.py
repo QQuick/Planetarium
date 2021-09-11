@@ -1,5 +1,3 @@
-# 126
-
 import math as mt
 
 import pyact as pa
@@ -7,7 +5,7 @@ import pymui as pm
 
 import transforms as tf
 import solar_system as ss
-import  milkyway as mw
+import exo_system as es
 
 twoPi = 2 * mt.pi
 controlWidth = '90%'
@@ -18,10 +16,9 @@ def tabEl (self, index):
 
 class Planetarium:
     def __init__ (self):
-        self.solarSystem = ss.SolarSystem (self, lambda: (2020, 12, 21, 0, 0, 0), lambda: 0.6)
-        self.milkyway = mw.Milkyway (self)
+        self.solarSystem = ss.SolarSystem (self, lambda: (2020, 12, 21, 0, 0, 0), lambda: 0.2)
+        self.exoSystem = es.ExoSystem (self)
         self.solarSystem.setEquatPositions ()
-        self.solarSystem.printPositions ()
 
         self.Pages = (SkyMapPage, SolarSystemPage, PlanetVisibilityPage)
         self.pages = [Page (self, pageIndex) for pageIndex, Page in enumerate (self.Pages)]     # All pages created in advance, since they're permanently on their tabs
@@ -36,7 +33,7 @@ class Planetarium:
 
         self.rotZyxMat = tf.getRotZyxMat ((self.xAngle, self.yAngle, self.zAngle))
         self.solarSystem.setEarthViewPositions ()
-        self.milkyway.setEarthViewPositions ()
+        self.exoSystem.setEarthViewPositions ()
 
         return pm.TabContext ({'value': str (self.pageIndex)},
             pm.AppBar ({'position': 'static', 'style': {'background': '#333333'}},
@@ -134,9 +131,9 @@ class ViewPane (Pane):
             if planet.earthViewPosition != None:
                 self.drawSphere (planet.earthViewPosition, mt.sqrt (planet.radius) / 40, planet.color)
 
-        for star in self.page.planetarium.milkyway.stars:
+        for star in self.page.planetarium.exoSystem.stars:
             if star.earthViewPosition != None:
-                self.drawSphere (star.earthViewPosition, -star.magnitude + 3.5, 'white')
+                self.drawSphere (star.earthViewPosition, (6 - star.magnitude) / 2, 'red' if 'm 31' in star.name else 'white')
 
     def getCanvasCoords (self, viewCoords):
         result = self.width / 2 + viewCoords [0], self.height / 2 - viewCoords [1]

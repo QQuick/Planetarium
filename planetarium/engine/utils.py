@@ -33,13 +33,15 @@ def equatFromEclipt (x, y, z):
         150e9 * (sinObliq * y + cosObliq * z)
     )
     return result
- 
+
+''' 
 # Get right ascension and declination from x y z coords
 def raDecFromXyz (x, y, z):
     return (
         ((12/mt.pi) * mt.atan2 (y, x) + 24) % 24,
         (180/mt.pi) * mt.atan (z / mt.sqrt (x * x + y * y))
     )
+'''
 
 # Convert <hours>.<minutes> to <hours>.<decimal fraction>
 def decimalHours (hoursMinutes):
@@ -59,3 +61,4 @@ def julianDayNr (dateTime):
     frac = sec / secPerDay
     
     return jdnInt + frac
+    

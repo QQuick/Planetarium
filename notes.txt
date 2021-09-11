@@ -1,5 +1,7 @@
-- Simpele XYZ rotatie maken instelbaar via GUI (als tussenstap)
-- Coord transfo maken t.g.v.
-    . instelbare positie op aarde
-    . tijdafhankelijkerotatie van aarde
-    . instelbare rotaties van telescoop maken (3 stuks, w.v. 2 tangentiaal, 1 axiaal)
+To do:
+    Switch to stereographic projection
+    Draw bounding circle
+    Use geo coords
+    Add NSEW annotations
+    Add zoom
+
